@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ionic 5 – Layout Responsive (Web + Mobile)</title>
+
+  <!-- Ionic 5 Core via CDN -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core@5/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core@5/dist/ionic/ionic.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core@5/css/ionic.bundle.css" />
+
+  <style>
+    /* ─────────────────────────────────────────────────────────
+       SPLIT PANE — controla el ancho del sidebar
+    ───────────────────────────────────────────────────────── */
+    ion-split-pane {
+      --side-width: 260px;
+      --side-max-width: 260px;
+      --border: 1px solid var(--ion-color-light-shade);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SIDEBAR — ítem de navegación
+    ───────────────────────────────────────────────────────── */
+    .nav-item {
+      --padding-start: 16px;
+      --min-height: 50px;
+      cursor: pointer;
+      border-radius: 8px;
+      margin: 2px 8px;
+    }
+
+    .nav-item ion-icon {
+      font-size: 20px;
+    }
+
+    /* Estado activo del item */
+    .nav-item.active {
+      --background: rgba(var(--ion-color-primary-rgb), 0.12);
+      --color: var(--ion-color-primary);
+      font-weight: 600;
+    }
+
+    /* Perfil en el sidebar */
+    .sidebar-profile {
+      padding: 24px 16px 16px;
+      text-align: center;
+      border-bottom: 1px solid var(--ion-color-light-shade);
+    }
+
+    .sidebar-profile ion-avatar {
+      margin: 0 auto 10px;
+      width: 64px;
+      height: 64px;
+    }
+
+    .sidebar-profile .profile-name {
+      margin: 0;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .sidebar-profile .profile-role {
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: var(--ion-color-medium);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       CONTENIDO PRINCIPAL — grid de tarjetas responsive
+    ───────────────────────────────────────────────────────── */
+    .dashboard-grid {
+      display: grid;
+      /* Columnas que se adaptan automáticamente:
+         mínimo 240px, máximo fracción del espacio */
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .stat-card ion-card-title {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .stat-trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────────────────── */
+    ion-footer ion-toolbar {
+      --min-height: 40px;
+    }
+
+    ion-footer .footer-text {
+      text-align: center;
+      font-size: 12px;
+      color: var(--ion-color-medium);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       UTILIDADES
+    ───────────────────────────────────────────────────────── */
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ion-color-medium-shade);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 16px 4px 6px;
+    }
+  </style>
+</head>
+
+<body>
+  <ion-app>
+
+    <!--
+      ╔══════════════════════════════════════════════════════════╗
+      ║  ION-SPLIT-PANE                                          ║
+      ║  when="lg" → en pantallas ≥ 992px:                      ║
+      ║    • El menú se muestra inline (empuja el contenido)     ║
+      ║  En pantallas < 992px:                                   ║
+      ║    • El menú actúa como overlay (ion-menu clásico)       ║
+      ╚══════════════════════════════════════════════════════════╝
+    -->
+    <ion-split-pane content-id="main-content" when="lg">
+
+      <!-- ══════════════════════════════════════════════════════
+           SIDEBAR LATERAL
+      ══════════════════════════════════════════════════════ -->
+      <ion-menu content-id="main-content" menu-id="main-menu" type="overlay">
+
+        <!-- Cabecera del menú -->
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-title>Mi App</ion-title>
+          </ion-toolbar>
+        </ion-header>
+
+        <!-- Cuerpo del menú -->
+        <ion-content>
+
+          <!-- Perfil de usuario -->
+          <div class="sidebar-profile">
+            <ion-avatar>
+              <img src="https://i.pravatar.cc/80?img=12" alt="Avatar usuario" />
+            </ion-avatar>
+            <p class="profile-name">Christopher A.</p>
+            <p class="profile-role">Administrador</p>
+          </div>
+
+          <!-- Navegación principal -->
+          <p class="section-title" style="padding-left:16px;">Principal</p>
+          <ion-list lines="none">
+
+            <!--
+              ion-menu-toggle: en mobile cierra el menú automáticamente
+              al hacer clic en un item. auto-hide="false" lo muestra
+              siempre, incluso en desktop.
+            -->
+            <ion-menu-toggle auto-hide="false">
+              <ion-item class="nav-item active" button detail="false" id="nav-inicio">
+                <ion-icon name="home-outline" slot="start"></ion-icon>
+                <ion-label>Inicio</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+            <ion-menu-toggle auto-hide="false">
+              <ion-item class="nav-item" button detail="false" id="nav-usuarios">
+                <ion-icon name="people-outline" slot="start"></ion-icon>
+                <ion-label>Usuarios</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+            <ion-menu-toggle auto-hide="false">
+              <ion-item class="nav-item" button detail="false" id="nav-reportes">
+                <ion-icon name="bar-chart-outline" slot="start"></ion-icon>
+                <ion-label>Reportes</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+            <ion-menu-toggle auto-hide="false">
+              <ion-item class="nav-item" button detail="false" id="nav-pedidos">
+                <ion-icon name="cart-outline" slot="start"></ion-icon>
+                <ion-label>Pedidos</ion-label>
+                <!-- Badge de notificación -->
+                <ion-badge slot="end" color="danger">5</ion-badge>
+              </ion-item>
+            </ion-menu-toggle>
+
+          </ion-list>
+
+          <p class="section-title" style="padding-left:16px;">Sistema</p>
+          <ion-list lines="none">
+
+            <ion-menu-toggle auto-hide="false">
+              <ion-item class="nav-item" button detail="false" id="nav-config">
+                <ion-icon name="settings-outline" slot="start"></ion-icon>
+                <ion-label>Configuración</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+            <ion-menu-toggle auto-hide="false">
+              <ion-item class="nav-item" button detail="false" id="nav-ayuda">
+                <ion-icon name="help-circle-outline" slot="start"></ion-icon>
+                <ion-label>Ayuda</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+          </ion-list>
+        </ion-content>
+
+        <!-- Footer del sidebar con acción de logout -->
+        <ion-footer>
+          <ion-toolbar>
+            <ion-item lines="none" button detail="false">
+              <ion-icon name="log-out-outline" slot="start" color="danger"></ion-icon>
+              <ion-label color="danger">Cerrar sesión</ion-label>
+            </ion-item>
+          </ion-toolbar>
+        </ion-footer>
+
+      </ion-menu>
+      <!-- /ion-menu -->
+
+
+      <!-- ══════════════════════════════════════════════════════
+           ÁREA DE CONTENIDO PRINCIPAL
+           IMPORTANTE: el id debe coincidir con content-id
+           del ion-split-pane y del ion-menu.
+      ══════════════════════════════════════════════════════ -->
+      <div id="main-content" class="ion-page">
+
+        <!-- ── HEADER FIJO ──────────────────────────────────── -->
+        <ion-header>
+          <ion-toolbar color="primary">
+
+            <!-- Botón hamburguesa:
+                 auto-hide="true" → solo aparece cuando el split-pane
+                 está en modo overlay (mobile / pantalla pequeña).
+                 En desktop, ion-split-pane lo oculta automáticamente. -->
+            <ion-buttons slot="start">
+              <ion-menu-button auto-hide="true" color="light"></ion-menu-button>
+            </ion-buttons>
+
+            <ion-title>Dashboard</ion-title>
+
+            <!-- Acciones en el header -->
+            <ion-buttons slot="end">
+              <ion-button>
+                <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+              </ion-button>
+              <ion-button>
+                <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+
+          </ion-toolbar>
+        </ion-header>
+        <!-- /ion-header -->
+
+
+        <!-- ── CONTENIDO SCROLLABLE ─────────────────────────── -->
+        <ion-content class="ion-padding">
+
+          <h2 style="margin-top:0;">Bienvenido 👋</h2>
+          <p style="color:var(--ion-color-medium); margin-top:0;">
+            Resumen general de la actividad de hoy.
+          </p>
+
+          <!-- Grid de tarjetas estadísticas (responsive) -->
+          <div class="dashboard-grid">
+
+            <ion-card class="stat-card">
+              <ion-card-header>
+                <ion-card-subtitle>Usuarios activos</ion-card-subtitle>
+                <ion-card-title>1,248</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="stat-trend">
+                  <ion-icon name="trending-up-outline" color="success"></ion-icon>
+                  <span style="color:var(--ion-color-success);">+12%</span>
+                  <span style="color:var(--ion-color-medium);">vs mes anterior</span>
+                </div>
+              </ion-card-content>
+            </ion-card>
+
+            <ion-card class="stat-card">
+              <ion-card-header>
+                <ion-card-subtitle>Ventas del mes</ion-card-subtitle>
+                <ion-card-title>$34,500</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="stat-trend">
+                  <ion-icon name="trending-up-outline" color="success"></ion-icon>
+                  <span style="color:var(--ion-color-success);">+8%</span>
+                  <span style="color:var(--ion-color-medium);">vs mes anterior</span>
+                </div>
+              </ion-card-content>
+            </ion-card>
+
+            <ion-card class="stat-card">
+              <ion-card-header>
+                <ion-card-subtitle>Pedidos pendientes</ion-card-subtitle>
+                <ion-card-title>87</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="stat-trend">
+                  <ion-icon name="trending-down-outline" color="danger"></ion-icon>
+                  <span style="color:var(--ion-color-danger);">-3%</span>
+                  <span style="color:var(--ion-color-medium);">vs mes anterior</span>
+                </div>
+              </ion-card-content>
+            </ion-card>
+
+            <ion-card class="stat-card">
+              <ion-card-header>
+                <ion-card-subtitle>Satisfacción</ion-card-subtitle>
+                <ion-card-title>94%</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="stat-trend">
+                  <ion-icon name="trending-up-outline" color="success"></ion-icon>
+                  <span style="color:var(--ion-color-success);">+2%</span>
+                  <span style="color:var(--ion-color-medium);">vs mes anterior</span>
+                </div>
+              </ion-card-content>
+            </ion-card>
+
+          </div>
+          <!-- /dashboard-grid -->
+
+
+          <!-- Listado de actividad reciente -->
+          <ion-card style="margin-top:8px;">
+            <ion-card-header>
+              <ion-card-title>Actividad reciente</ion-card-title>
+            </ion-card-header>
+            <ion-card-content style="padding:0;">
+              <ion-list>
+
+                <ion-item>
+                  <ion-avatar slot="start">
+                    <img src="https://i.pravatar.cc/40?img=1" alt="Ana" />
+                  </ion-avatar>
+                  <ion-label>
+                    <h3>Ana García</h3>
+                    <p>Registró un nuevo pedido #4521</p>
+                  </ion-label>
+                  <ion-note slot="end" color="medium">5 min</ion-note>
+                </ion-item>
+
+                <ion-item>
+                  <ion-avatar slot="start">
+                    <img src="https://i.pravatar.cc/40?img=3" alt="Carlos" />
+                  </ion-avatar>
+                  <ion-label>
+                    <h3>Carlos Méndez</h3>
+                    <p>Actualizó el inventario del almacén</p>
+                  </ion-label>
+                  <ion-note slot="end" color="medium">20 min</ion-note>
+                </ion-item>
+
+                <ion-item>
+                  <ion-avatar slot="start">
+                    <img src="https://i.pravatar.cc/40?img=5" alt="María" />
+                  </ion-avatar>
+                  <ion-label>
+                    <h3>María López</h3>
+                    <p>Generó el reporte mensual de ventas</p>
+                  </ion-label>
+                  <ion-note slot="end" color="medium">1 hr</ion-note>
+                </ion-item>
+
+                <ion-item lines="none">
+                  <ion-avatar slot="start">
+                    <img src="https://i.pravatar.cc/40?img=7" alt="Pedro" />
+                  </ion-avatar>
+                  <ion-label>
+                    <h3>Pedro Sánchez</h3>
+                    <p>Aprobó 12 solicitudes de devolución</p>
+                  </ion-label>
+                  <ion-note slot="end" color="medium">2 hr</ion-note>
+                </ion-item>
+
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+
+        </ion-content>
+        <!-- /ion-content -->
+
+
+        <!-- ── FOOTER FIJO (OPCIONAL) ───────────────────────── -->
+        <ion-footer>
+          <ion-toolbar>
+            <p class="footer-text" style="margin:0; padding: 6px 0;">
+              © 2026 Mi App &nbsp;·&nbsp; Todos los derechos reservados
+            </p>
+          </ion-toolbar>
+        </ion-footer>
+        <!-- /ion-footer -->
+
+      </div>
+      <!-- /main-content -->
+
+    </ion-split-pane>
+  </ion-app>
+
+  <script>
+    /**
+     * Manejo del estado activo en la navegación del sidebar.
+     * Quita la clase "active" de todos los items y la aplica
+     * al item que fue clicado.
+     */
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        navItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+// =============================================================
+// app.component.scss
+// Estilos globales del shell: sidebar, split-pane, overlay
+// =============================================================
+
+// ---- Variables ----
+$sidebar-width: 260px;
+$primary: var(--ion-color-primary);
+
+// ---- ion-split-pane ----
+// Fuerza el ancho del sidebar cuando está expandido en desktop
+ion-split-pane {
+  --side-width: #{$sidebar-width};
+  --side-max-width: #{$sidebar-width};
+  --side-min-width: #{$sidebar-width};
+}
+
+// ---- Sidebar: header ----
+ion-menu {
+  ion-toolbar {
+    --background: var(--ion-color-primary);
+    --color: #fff;
+  }
+
+  .sidebar-title {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+}
+
+// ---- Sidebar: perfil de usuario ----
+.sidebar-user-card {
+  background: var(--ion-color-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+// ---- Sidebar: contenido / lista nav ----
+.sidebar-content {
+  --background: #1e2235;
+
+  ion-list {
+    background: transparent;
+  }
+
+  ion-list-header {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    padding-left: 16px;
+  }
+
+  ion-item {
+    --background: transparent;
+    --color: rgba(255, 255, 255, 0.75);
+    --border-color: transparent;
+    --padding-start: 16px;
+    --inner-padding-end: 16px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    margin: 2px 8px;
+
+    ion-icon {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 1.1rem;
+      margin-right: 4px;
+    }
+
+    // Estado activo de la ruta
+    &.active-link {
+      --background: rgba(255, 255, 255, 0.12);
+      --color: #fff;
+
+      ion-icon {
+        color: var(--ion-color-primary-contrast);
+      }
+    }
+
+    &:hover {
+      --background: rgba(255, 255, 255, 0.08);
+      --color: #fff;
+    }
+  }
+}
+
+// ---- Sidebar: footer (cerrar sesión) ----
+.sidebar-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}

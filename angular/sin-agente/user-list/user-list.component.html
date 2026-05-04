@@ -1,0 +1,96 @@
+<div class="user-list-container">
+  <h2>Listado de Usuarios</h2>
+
+  <!-- Filter -->
+  <div class="toolbar">
+    <input
+      type="text"
+      class="filter-input"
+      placeholder="Filtrar por cualquier campo..."
+      [ngModel]="filterText()"
+      (ngModelChange)="onFilterChange($event)"
+    />
+    <span class="record-count" *ngIf="!loading() && !error()">
+      {{ filteredUsers().length }} resultado(s)
+    </span>
+  </div>
+
+  <!-- Loading state -->
+  <div class="state-container" *ngIf="loading()">
+    <div class="spinner"></div>
+    <p>Cargando usuarios...</p>
+  </div>
+
+  <!-- Error state -->
+  <div class="state-container error-state" *ngIf="error() && !loading()">
+    <p>{{ error() }}</p>
+    <button class="btn btn-retry" (click)="loadUsers()">Reintentar</button>
+  </div>
+
+  <!-- Table -->
+  <ng-container *ngIf="!loading() && !error()">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Ciudad</th>
+            <th>Empresa</th>
+            <th>Sitio Web</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of pagedUsers()">
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.username }}</td>
+            <td><a [href]="'mailto:' + user.email">{{ user.email }}</a></td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.address.city }}</td>
+            <td>{{ user.company.name }}</td>
+            <td><a [href]="'https://' + user.website" target="_blank" rel="noopener noreferrer">{{ user.website }}</a></td>
+          </tr>
+          <tr *ngIf="pagedUsers().length === 0">
+            <td colspan="8" class="no-results">No se encontraron resultados.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages() > 1">
+      <button
+        class="btn"
+        [disabled]="currentPage() === 1"
+        (click)="goToPage(currentPage() - 1)"
+      >
+        &laquo; Anterior
+      </button>
+
+      <button
+        *ngFor="let page of pages()"
+        class="btn page-btn"
+        [class.active]="page === currentPage()"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+
+      <button
+        class="btn"
+        [disabled]="currentPage() === totalPages()"
+        (click)="goToPage(currentPage() + 1)"
+      >
+        Siguiente &raquo;
+      </button>
+    </div>
+
+    <p class="page-info" *ngIf="filteredUsers().length > 0">
+      Página {{ currentPage() }} de {{ totalPages() }}
+    </p>
+  </ng-container>
+</div>

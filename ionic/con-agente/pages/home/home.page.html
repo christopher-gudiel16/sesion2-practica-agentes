@@ -1,0 +1,177 @@
+<!-- ===== HEADER FIJO ===== -->
+<!--
+  ion-header es sticky por defecto (fixed).
+  ion-menu-button: en mobile muestra el ícono hamburguesa para abrir el overlay.
+  En desktop (split-pane visible) el botón se oculta automáticamente 
+  gracias a la propiedad autoHide="true" (default) de ion-menu-button.
+-->
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <!-- Botón hamburguesa: visible solo en mobile -->
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="true" color="light"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+      <span class="d-flex align-items-center">
+        <ion-icon name="layers-outline" class="mr-2"></ion-icon>
+        Inicio
+      </span>
+    </ion-title>
+
+    <!-- Acciones del header (derecha) -->
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="light">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" color="light">
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<!-- ===== FIN HEADER ===== -->
+
+
+<!-- ===== CONTENIDO PRINCIPAL ===== -->
+<ion-content class="ion-padding page-content">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb bg-transparent p-0">
+      <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+    </ol>
+  </nav>
+
+  <!-- Título de sección -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0 font-weight-bold">Dashboard</h4>
+    <ion-button size="small" color="primary">
+      <ion-icon slot="start" name="add-outline"></ion-icon>
+      Nuevo
+    </ion-button>
+  </div>
+
+  <!-- ===== CARDS DE MÉTRICAS (responsive: 2 col mobile, 4 col desktop) ===== -->
+  <div class="row">
+    <div class="col-6 col-md-3 mb-3">
+      <ion-card class="metric-card text-center m-0">
+        <ion-card-content>
+          <ion-icon name="people-outline" color="primary" class="metric-icon"></ion-icon>
+          <h3 class="metric-value">1,248</h3>
+          <p class="metric-label text-muted">Usuarios</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <ion-card class="metric-card text-center m-0">
+        <ion-card-content>
+          <ion-icon name="cart-outline" color="success" class="metric-icon"></ion-icon>
+          <h3 class="metric-value">356</h3>
+          <p class="metric-label text-muted">Pedidos</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <ion-card class="metric-card text-center m-0">
+        <ion-card-content>
+          <ion-icon name="cash-outline" color="warning" class="metric-icon"></ion-icon>
+          <h3 class="metric-value">$8,540</h3>
+          <p class="metric-label text-muted">Ingresos</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <ion-card class="metric-card text-center m-0">
+        <ion-card-content>
+          <ion-icon name="trending-up-outline" color="tertiary" class="metric-icon"></ion-icon>
+          <h3 class="metric-value">+12%</h3>
+          <p class="metric-label text-muted">Crecimiento</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- ===== FILA DE CONTENIDO (tabla + panel lateral) ===== -->
+  <div class="row mt-3">
+
+    <!-- Tabla principal: ocupa todo en mobile, 8 col en desktop -->
+    <div class="col-12 col-md-8 mb-3">
+      <ion-card class="m-0">
+        <ion-card-header>
+          <ion-card-title>Actividad Reciente</ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="p-0">
+          <ion-list>
+            <ion-item *ngFor="let item of actividadReciente">
+              <ion-avatar slot="start">
+                <img [src]="item.avatar" alt="avatar" />
+              </ion-avatar>
+              <ion-label>
+                <h3>{{ item.nombre }}</h3>
+                <p>{{ item.accion }}</p>
+              </ion-label>
+              <ion-badge slot="end" [color]="item.badgeColor">
+                {{ item.estado }}
+              </ion-badge>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Panel lateral info: ocupa todo en mobile, 4 col en desktop -->
+    <div class="col-12 col-md-4 mb-3">
+      <ion-card class="m-0">
+        <ion-card-header>
+          <ion-card-title>Resumen</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list lines="none">
+            <ion-item>
+              <ion-label>Sesiones activas</ion-label>
+              <ion-note slot="end" color="success">24</ion-note>
+            </ion-item>
+            <ion-item>
+              <ion-label>Errores hoy</ion-label>
+              <ion-note slot="end" color="danger">3</ion-note>
+            </ion-item>
+            <ion-item>
+              <ion-label>Uptime</ion-label>
+              <ion-note slot="end" color="primary">99.9%</ion-note>
+            </ion-item>
+            <ion-item>
+              <ion-label>Última sincronización</ion-label>
+              <ion-note slot="end" color="medium">hace 5 min</ion-note>
+            </ion-item>
+          </ion-list>
+
+          <ion-progress-bar value="0.75" color="primary" class="mt-2"></ion-progress-bar>
+          <small class="text-muted">75% capacidad de almacenamiento</small>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+  </div>
+
+</ion-content>
+<!-- ===== FIN CONTENIDO ===== -->
+
+
+<!-- ===== FOOTER FIJO (opcional) ===== -->
+<!--
+  ion-footer queda pegado al bottom de la página.
+  Se puede ocultar en desktop con clase CSS si se prefiere.
+-->
+<ion-footer class="app-footer">
+  <ion-toolbar color="light">
+    <div class="d-flex justify-content-between align-items-center px-3">
+      <small class="text-muted">© 2026 Mi App. Todos los derechos reservados.</small>
+      <small class="text-muted d-none d-md-block">v1.0.0</small>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+<!-- ===== FIN FOOTER ===== -->

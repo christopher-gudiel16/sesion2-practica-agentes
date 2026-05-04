@@ -1,0 +1,80 @@
+// =============================================================
+// home.page.scss
+// Estilos del contenido principal: header, cards, footer
+// =============================================================
+
+// ---- Header ----
+ion-header ion-toolbar {
+  --min-height: 56px;
+
+  ion-title {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+// ---- Contenido ----
+.page-content {
+  --background: #f4f6f9;
+}
+
+// ---- Cards de métricas ----
+.metric-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  ion-card-content {
+    padding: 16px 8px;
+  }
+
+  .metric-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .metric-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    color: #2d3748;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    margin: 0;
+  }
+}
+
+// ---- Cards generales ----
+ion-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  ion-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+// ---- Footer ----
+.app-footer {
+  ion-toolbar {
+    --background: #fff;
+    --min-height: 40px;
+    font-size: 0.75rem;
+  }
+}
+
+// ---- Responsive: ajustes finos en desktop ----
+@media (min-width: 768px) {
+  .metric-card .metric-value {
+    font-size: 1.6rem;
+  }
+
+  .page-content {
+    --padding-start: 24px;
+    --padding-end: 24px;
+    --padding-top: 20px;
+  }
+}

@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.font-weight-medium {
+  font-weight: 500;
+}
+
+.table th {
+  white-space: nowrap;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.page-link {
+  cursor: pointer;
+  user-select: none;
+}
+
+.page-item.disabled .page-link {
+  pointer-events: none;
+}
+
+.card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
